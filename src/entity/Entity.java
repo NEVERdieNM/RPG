@@ -14,24 +14,34 @@ import java.awt.Rectangle;
 
 public class Entity {
     
+    /*------------------------------------------------------------ */
+
     GamePanel gp;
 
+    //PLAYER INFO
     public int worldX, worldY;
     public int speed;
 
+    //SPRITES
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
-    public String direction;
 
+    //SPRITE ANIMATIONS
     public int spriteCounter = 0;
     public int spriteNum = 1;
+    public String direction;
 
+    //HITBOX
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
+    public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn = false;  
 
+    //NPC ACTION COOLDOWN
     public int actionLockCounter;
-    
-    public int solidAreaDefaultX, solidAreaDefaultY;
 
+    String[] dialogues = new String[20];
+    int dialogueIndex = 0;
+
+    /*------------------------------------------------------------ */
 
     public Entity(GamePanel gp){
 
@@ -55,6 +65,38 @@ public class Entity {
     }
 
     public void setAction() {}
+
+    //NPC DIALOGUE
+    public void speak() {
+
+        //RESET DIALOGUE
+        if(dialogues[dialogueIndex] == null){
+            dialogueIndex = 0;
+        }
+        
+        //PASS NEXT DIALOGUE
+        gp.ui.currentDialogue = dialogues[dialogueIndex];
+        dialogueIndex++;
+
+        //TURN NPC TO PLAYER
+        switch(gp.player.direction){
+            case "up":
+                direction = "down";
+            break;
+
+            case "down":
+                direction = "up";
+            break;
+
+            case "right":
+                direction = "left";
+            break;
+
+            case "left":
+                direction = "right";
+            break;
+        }
+    }
     
     public void update() {
 
