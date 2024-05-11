@@ -128,8 +128,14 @@ public class Player extends Entity {
     public void interactWithNPC(int index){
 
         if(index != 999){
-            System.out.println("NPC!");
+
+            if(keyH.spacePressed){
+            
+                gp.gameState = gp.DIALOGUE_STATE;
+                gp.npc[index].speak();
+            }
         }
+        gp.keyH.spacePressed = false;
     }
 
     public void draw(Graphics2D g2){
