@@ -88,7 +88,7 @@ public class UI{
         }
         //PAUSE STATE
         else if(gp.gameState == gp.PAUSE_STATE) {
-
+            drawPlayerHealth();
             drawPauseScreen();
         }
         //DIALOGUE STATE
@@ -282,8 +282,7 @@ public class UI{
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80f));
 
         String text = "PAUSED";
-        int textWidth = getXforXCeteredText(text);
-        int x = gp.SCREEN_WIDTH/2 - textWidth/2;
+        int x = getXforXCeteredText(text);
         int y = gp.SCREEN_HEIGHT/2;
 
         g2.drawString(text, x, y);
