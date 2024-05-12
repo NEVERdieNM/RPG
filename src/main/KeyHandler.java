@@ -13,6 +13,8 @@ public class KeyHandler implements KeyListener {
     public boolean spacePressed;
     //DEBUG
     public boolean showCoordinates, showDrawTime;
+    //MAIN MENU
+    public boolean upPressed, downPressed, rightPressed, leftPressed, enterPressed;
 
 
     public KeyHandler(GamePanel gp){
@@ -24,8 +26,65 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         int keyCode = e.getKeyCode();
+        //MAIN MENU STATE
+        if(gp.gameState == gp.MAIN_MENU_STATE){
 
-        if(gp.gameState == gp.PLAY_STATE){
+            if(gp.ui.MainMenuScreenState == 0){
+                if(keyCode == KeyEvent.VK_UP){
+                    gp.ui.selectedOption--;
+                    if(gp.ui.selectedOption < 0)
+                        gp.ui.selectedOption = 2;
+                }
+                if(keyCode == KeyEvent.VK_DOWN){
+                    gp.ui.selectedOption++;
+                    if(gp.ui.selectedOption > 2)
+                        gp.ui.selectedOption = 0;
+                }
+                if(keyCode == KeyEvent.VK_ENTER){
+                    if(gp.ui.selectedOption == 0){
+                        gp.ui.MainMenuScreenState = 1;
+                    }
+                    else if(gp.ui.selectedOption == 1){
+                        //     ADD LATER
+                    }
+                    else if(gp.ui.selectedOption == 2){
+                        System.exit(0);
+                    }
+                }
+            }
+            else if(gp.ui.MainMenuScreenState == 1){
+                if(keyCode == KeyEvent.VK_UP){
+                    gp.ui.selectedOption--;
+                    if(gp.ui.selectedOption < 0)
+                        gp.ui.selectedOption = 3;
+                }
+                if(keyCode == KeyEvent.VK_DOWN){
+                    gp.ui.selectedOption++;
+                    if(gp.ui.selectedOption > 3)
+                        gp.ui.selectedOption = 0;
+                }
+                if(keyCode == KeyEvent.VK_ENTER){
+                    if(gp.ui.selectedOption == 0){
+                        gp.gameState = gp.PLAY_STATE;
+                        gp.playMusic(0);
+                    }
+                    else if(gp.ui.selectedOption == 1){
+                        gp.gameState = gp.PLAY_STATE;
+                        gp.playMusic(0);
+                    }
+                    else if(gp.ui.selectedOption == 2){
+                        gp.gameState = gp.PLAY_STATE;
+                        gp.playMusic(0);
+                    }
+                    else if(gp.ui.selectedOption == 3){
+                        gp.ui.MainMenuScreenState = 0;
+                    }
+                    gp.ui.selectedOption = 0;
+                }
+            }
+        }
+        //PLAY STATE
+        else if(gp.gameState == gp.PLAY_STATE){
             // MOVEMENT
             if(keyCode == KeyEvent.VK_W){
                 wPressed = true;

@@ -3,13 +3,8 @@ package main;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 
 import java.text.DecimalFormat;
@@ -35,6 +30,10 @@ public class UI{
     //DEBUG
     double playTime = 0;
     DecimalFormat dFormat = new DecimalFormat("#0.00");
+
+    //MAIN MENU
+    public int selectedOption = 0;
+    public int MainMenuScreenState = 0; // 0: first screen; 1: second screen;
 
     /*------------------------------------------------------------ */
 
@@ -70,6 +69,10 @@ public class UI{
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(Color.white);
 
+        //MAIN MENU STATE
+        if(gp.gameState == gp.MAIN_MENU_STATE){
+            drawMainMenuScreen();
+        }
         //PLAY STATE
         if(gp.gameState == gp.PLAY_STATE) {
 
@@ -83,6 +86,158 @@ public class UI{
         else if(gp.gameState == gp.DIALOGUE_STATE){
             drawDialogueScreen();
         }
+    }
+
+    public void drawMainMenuScreen(){
+
+        //  TITLE SCREEN
+        if(MainMenuScreenState == 0){
+            
+            g2.setColor(new Color(70,120,80));
+            g2.fillRect(0, 0, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
+
+            String text;
+
+            //GAME TITLE
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 70f));
+            text = "Blue Boy Adventure";
+            int x = getXforXCeteredText(text);
+            int y = gp.TILE_SIZE*3;
+            //SHADOW TEXT
+            g2.setColor(Color.black);
+            g2.drawString(text, x + 5, y + 5);
+            //MAIN TEXT
+            g2.setColor(Color.white);
+            g2.drawString(text, x, y);
+
+            //PLAYER IMAGE
+            x = gp.SCREEN_WIDTH/2;
+            y += gp.TILE_SIZE*2;
+            g2.drawImage(gp.player.down1, x - (gp.TILE_SIZE*2)/2, y, gp.TILE_SIZE*2, gp.TILE_SIZE*2, null);
+
+            //  ~   MENU    ~
+            
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48f));
+
+            // NEW GAME
+            text = "New Game";
+            x = getXforXCeteredText(text);
+            y += gp.TILE_SIZE*4;
+            //SHADOW TEXT
+            g2.setColor(Color.black);
+            g2.drawString(text, x+5, y+5);
+            //MAIN TEXT
+            g2.setColor(Color.white);
+            g2.drawString(text, x, y);
+            if(selectedOption == 0){
+                g2.drawString(">", x - gp.TILE_SIZE, y);
+            }
+
+            // LOAD GAME
+            text = "Load game";
+            x = getXforXCeteredText(text);
+            y += gp.TILE_SIZE + gp.TILE_SIZE/2;
+            //SHADOW TEXT
+            g2.setColor(Color.black);
+            g2.drawString(text, x+5, y+5);
+            //MAIN TEXT
+            g2.setColor(Color.white);
+            g2.drawString(text, x, y);
+            if(selectedOption == 1){
+                g2.drawString(">", x - gp.TILE_SIZE, y);
+            }
+
+            // QUIT
+            text = "Quit";
+            x = gp.TILE_SIZE/2;
+            y += gp.TILE_SIZE;
+            //SHADOW TEXT
+            g2.setColor(Color.black);
+            g2.drawString(text, x+5, y+5);
+            //MAIN TEXT
+            g2.setColor(Color.white);
+            g2.drawString(text, x, y);
+            if(selectedOption == 2){
+                g2.drawString("<", x + gp.TILE_SIZE*2 + gp.TILE_SIZE/2, y);
+            }
+        }
+        else if(MainMenuScreenState == 1){
+
+            String text;
+
+            //CLASS SELECTION SCREEN
+            g2.setColor(new Color(70,120,80));
+            g2.fillRect(0, 0, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
+
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 58f));
+
+            text = "Select your class!";
+            int x = getXforXCeteredText(text);
+            int y = gp.TILE_SIZE*3;
+            //SHADOW TEXT
+            g2.setColor(Color.black);
+            g2.drawString(text, x+5, y+5);
+            //MAIN TEXT
+            g2.setColor(Color.white);
+            g2.drawString(text, x, y);
+
+            g2.setFont(g2.getFont().deriveFont(48f));
+
+            text = "Fighter";
+            x = getXforXCeteredText(text);
+            y += gp.TILE_SIZE*3;
+            //SHADOW TEXT
+            g2.setColor(Color.black);
+            g2.drawString(text, x+5, y+5);
+            //MAIN TEXT
+            g2.setColor(Color.white);
+            g2.drawString(text, x, y);
+            if(selectedOption == 0){
+                g2.drawString(">", x - gp.TILE_SIZE, y);
+            }
+
+            text = "Thief";
+            x = getXforXCeteredText(text);
+            y += gp.TILE_SIZE + gp.TILE_SIZE/4;
+            //SHADOW TEXT
+            g2.setColor(Color.black);
+            g2.drawString(text, x+5, y+5);
+            //MAIN TEXT
+            g2.setColor(Color.white);
+            g2.drawString(text, x, y);
+            if(selectedOption == 1){
+                g2.drawString(">", x - gp.TILE_SIZE, y);
+            }
+
+            text = "Wizard";
+            x = getXforXCeteredText(text);
+            y += gp.TILE_SIZE + gp.TILE_SIZE/4;
+            //SHADOW TEXT
+            g2.setColor(Color.black);
+            g2.drawString(text, x+5, y+5);
+            //MAIN TEXT
+            g2.setColor(Color.white);
+            g2.drawString(text, x, y);
+            if(selectedOption == 2){
+                g2.drawString(">", x - gp.TILE_SIZE, y);
+            }
+
+            text = "back";
+            x = getXforXCeteredText(text);
+            y += gp.TILE_SIZE*2;
+            //SHADOW TEXT
+            g2.setColor(Color.black);
+            g2.drawString(text, x+5, y+5);
+            //MAIN TEXT
+            g2.setColor(Color.white);
+            g2.drawString(text, x, y);
+            if(selectedOption == 3){
+                g2.drawString(">", x - gp.TILE_SIZE, y);
+            }
+        }
+
+        
     }
 
     public void drawPauseScreen(){
@@ -131,8 +286,9 @@ public class UI{
     }
 
     public int getXforXCeteredText(String text){
-        int x = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        return x;
+        int textWidth = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        int centeredX = gp.SCREEN_WIDTH/2 - textWidth/2;
+        return centeredX;
     }
 
 }

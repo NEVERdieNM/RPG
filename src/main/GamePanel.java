@@ -48,11 +48,12 @@ public class GamePanel extends JPanel implements Runnable {
     public SuperObject[] obj = new SuperObject[10];
     public Entity npc[] = new Entity[10];
 
-    //GAME STATE
+    //GAME STATES
     public int gameState;
-    public final int PAUSE_STATE = 0;
-    public final int PLAY_STATE = 1;
-    public final int DIALOGUE_STATE = 2;
+    public final int MAIN_MENU_STATE = 0;
+    public final int PAUSE_STATE = 1;
+    public final int PLAY_STATE = 2;
+    public final int DIALOGUE_STATE = 3;
 
 
     public GamePanel(){
@@ -71,8 +72,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         assetS.setObject();
         assetS.setNPC();
-        playMusic(0);
-        gameState = PLAY_STATE;
+        gameState = MAIN_MENU_STATE;
 
     }
 
@@ -113,31 +113,36 @@ public class GamePanel extends JPanel implements Runnable {
             drawStart = System.nanoTime();
         }
 
-        //TILES
-        tileM.draw(g2);
-        //OBJECTS
-        for(int i = 0; i < obj.length; i++){
-            if(obj[i] != null){
-                obj[i].draw(g2, this);
-            }
-        }
-        //NPC
-        for(int i = 0; i < npc.length; i++){
-            if(npc[i] != null){
-                npc[i].draw(g2);
-            }
-        }
-        //PLAYER
-        player.draw(g2);
-        //UI
-        ui.draw(g2);
-        
+        //  MAIN MENU 
+        if(gameState == MAIN_MENU_STATE){
 
+            ui.draw(g2);
+        }
+        // OTHER GAME STATES
+        else{
+            //TILES
+            tileM.draw(g2);
+            //OBJECTS
+            for(int i = 0; i < obj.length; i++){
+                if(obj[i] != null){
+                    obj[i].draw(g2, this);
+                }
+            }
+            //NPC
+            for(int i = 0; i < npc.length; i++){
+                if(npc[i] != null){
+                    npc[i].draw(g2);
+                }
+            }
+            //PLAYER
+            player.draw(g2);
+            //UI
+            ui.draw(g2);
+        }
         //DEBUG
 
         long drawEnd = System.nanoTime();
         long drawTime = drawEnd - drawStart;
-
         if(keyH.showDrawTime){
 
             g2.setFont(getFont().deriveFont(20f));
