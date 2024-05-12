@@ -13,7 +13,7 @@ import main.UtilityTool;
 
 public class SuperObject {
     
-    public BufferedImage image;
+    public BufferedImage image, image2, image3;
     public String name;
     public boolean collsion = false;
 
@@ -53,4 +53,25 @@ public class SuperObject {
         this.image = scaledImage;
     }
 
+    public void setup(String imageName, String imageName2, String imageName3){
+
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage scaledImage1 = null;
+        BufferedImage scaledImage2 = null;
+        BufferedImage scaledImage3 = null;
+
+        try{
+
+            scaledImage1 = uTool.scaleImage(ImageIO.read(new File("res/objects/" + imageName + ".png")), gp.TILE_SIZE, gp.TILE_SIZE);
+            scaledImage2 = uTool.scaleImage(ImageIO.read(new File("res/objects/" + imageName2 + ".png")), gp.TILE_SIZE, gp.TILE_SIZE);
+            scaledImage3 = uTool.scaleImage(ImageIO.read(new File("res/objects/" + imageName3 + ".png")), gp.TILE_SIZE, gp.TILE_SIZE);
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+        this.image = scaledImage1;
+        this.image2 = scaledImage2;
+        this.image3 = scaledImage3;
+    }
 }

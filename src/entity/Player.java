@@ -38,6 +38,9 @@ public class Player extends Entity {
         this.speed = 3 * gp.SCALE / 3;
         this.direction = "down";
 
+        //PLAYER HEALTH 
+        maxHealth = 6;
+        health = maxHealth;
     }
 
     public void getPlayerImage(){
@@ -82,6 +85,12 @@ public class Player extends Entity {
             //CHECK COLLSION WITH NPC
             int npcIndex = gp.collisionC.checkEntity(this, gp.npc);
             interactWithNPC(npcIndex);
+
+            //CHECK EVENT
+            gp.eHandler.checkEvent();
+
+            gp.keyH.enterPressed = false;
+            gp.keyH.spacePressed = false;
 
             //IF COLLSION IS FALSE PLAYER CAN MOVE 
             if(collisionOn == false){
@@ -135,7 +144,6 @@ public class Player extends Entity {
                 gp.npc[index].speak();
             }
         }
-        gp.keyH.spacePressed = false;
     }
 
     public void draw(Graphics2D g2){

@@ -42,7 +42,9 @@ public class KeyHandler implements KeyListener {
                 }
                 if(keyCode == KeyEvent.VK_ENTER){
                     if(gp.ui.selectedOption == 0){
-                        gp.ui.MainMenuScreenState = 1;
+                        //gp.ui.MainMenuScreenState = 1;
+                        gp.gameState = gp.PLAY_STATE;
+                        gp.playMusic(0);
                     }
                     else if(gp.ui.selectedOption == 1){
                         //     ADD LATER
@@ -106,8 +108,12 @@ public class KeyHandler implements KeyListener {
             if(keyCode == KeyEvent.VK_ESCAPE){
                 gp.gameState = gp.PAUSE_STATE;
             }
-            //DEBUG
-
+            //OTHER
+            if(keyCode == KeyEvent.VK_ENTER){
+                enterPressed = true;
+            }
+            
+            //      DEBUG
             //DISPLAY COORDINATES
             if(keyCode == KeyEvent.VK_K){
                 if(showCoordinates == false){

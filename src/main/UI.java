@@ -5,9 +5,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-
-
+import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
+
+import objects.ObjectHeart;
+import objects.SuperObject;
+
 
 public class UI{
 
@@ -25,8 +28,6 @@ public class UI{
     //DIALOGUE 
     public String currentDialogue = "";
 
-    public boolean gameFinished = false;
-
     //DEBUG
     double playTime = 0;
     DecimalFormat dFormat = new DecimalFormat("#0.00");
@@ -35,12 +36,14 @@ public class UI{
     public int selectedOption = 0;
     public int MainMenuScreenState = 0; // 0: first screen; 1: second screen;
 
+    //IMAGES 
+    BufferedImage heart_full, heart_half, heart_blank;
+
     /*------------------------------------------------------------ */
 
     //CONSTRUCTOR
     public UI(GamePanel gp){
         this.gp = gp;
-        
         //      CUSTOM FONT
         // try{
 
@@ -51,9 +54,15 @@ public class UI{
         // }catch(FontFormatException | IOException e){
         //     e.printStackTrace();
         // }
-        
         defaultFont = new Font("Arial", Font.PLAIN, 40);
+        
+        // HUD OBJECTS
+        SuperObject heart = new ObjectHeart(gp);
 
+        // HUD IMAGES
+        heart_full = heart.image;
+        heart_half =  heart.image2;
+        heart_blank = heart.image3;
     }
 
     public void showMessage(String text){
@@ -75,7 +84,7 @@ public class UI{
         }
         //PLAY STATE
         if(gp.gameState == gp.PLAY_STATE) {
-
+            drawPlayerHealth();
         }
         //PAUSE STATE
         else if(gp.gameState == gp.PAUSE_STATE) {
@@ -84,7 +93,35 @@ public class UI{
         }
         //DIALOGUE STATE
         else if(gp.gameState == gp.DIALOGUE_STATE){
+            drawPlayerHealth();
             drawDialogueScreen();
+        }
+    }
+
+    public void drawPlayerHealth(){
+
+        int x = gp.TILE_SIZE/2;
+        int y = gp.TILE_SIZE/2;
+
+        //DRAW BLANK HEARTS
+        int i = 0;
+        while(i < gp.player.maxHealth/2){
+            g2.drawImage(heart_blank, x, y, null);
+            i++;
+            x += gp.TILE_SIZE;
+        }
+        
+        x = gp.TILE_SIZE/2;
+        //DRAW CURRENT HEALTH
+        i = 0;
+        while(i < gp.player.health){
+            g2.drawImage(heart_half, x, y, null);
+            i++;
+            if(i < gp.player.health){
+                g2.drawImage(heart_full, x, y, null);
+            }
+            i++;
+            x += gp.TILE_SIZE;
         }
     }
 
@@ -109,7 +146,7 @@ public class UI{
             //MAIN TEXT
             g2.setColor(Color.white);
             g2.drawString(text, x, y);
-
+            
             //PLAYER IMAGE
             x = gp.SCREEN_WIDTH/2;
             y += gp.TILE_SIZE*2;

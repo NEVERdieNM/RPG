@@ -21,6 +21,9 @@ public class Entity {
     //PLAYER INFO
     public int worldX, worldY;
     public int speed;
+    //PLAYER HEALTH
+    public int maxHealth;
+    public int health;
 
     //SPRITES
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
