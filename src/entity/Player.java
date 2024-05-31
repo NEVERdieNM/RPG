@@ -138,7 +138,7 @@ public class Player extends Entity {
 
         if(index != 999){
 
-            if(keyH.spacePressed){
+            if(keyH.enterPressed || keyH.spacePressed){
             
                 gp.gameState = gp.DIALOGUE_STATE;
                 gp.npc[index].speak();

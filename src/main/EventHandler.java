@@ -20,7 +20,8 @@ public class EventHandler {
     public void checkEvent() {
 
         if(hit(27,16,"right") == true){
-            teleport(23, 21, gp.DIALOGUE_STATE);
+            //teleport(23, 21, gp.DIALOGUE_STATE);
+            damagePit(gp.DIALOGUE_STATE);
         }
         if(hit(23,12,"up") == true){
             healingPool(gp.DIALOGUE_STATE);
